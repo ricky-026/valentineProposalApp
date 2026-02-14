@@ -27,17 +27,23 @@ body {
 #root {
   width: 100%;
   height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
 }
 
 .app-container {
+  position: relative;
   width: 100%;
   height: 100vh;
-  background: linear-gradient(135deg, #ff6b9d 0%, #ffc3a0 50%, #ff758c 100%);
+  /* Use dvh for mobile browsers if supported, fallback to vh */
+  height: 100dvh;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  position: relative;
   overflow: hidden;
+  background: linear-gradient(135deg, #ff6b9d 0%, #ffc3a0 50%, #ff758c 100%);
 }
 
 /* Animated clouds background */
@@ -238,22 +244,6 @@ body {
   filter: drop-shadow(0 2px 4px rgba(220, 20, 60, 0.3));
 }
 
-/* Ambient hearts */
-.ambient-hearts {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 2;
-}
-
-.ambient-heart {
-  position: absolute;
-  filter: drop-shadow(0 2px 6px rgba(255, 105, 180, 0.4));
-}
-
 /* Proposal container */
 .proposal-container {
   position: relative;
@@ -267,6 +257,8 @@ body {
   box-shadow: 0 8px 32px rgba(255, 105, 180, 0.3);
   max-width: 90%;
   width: 600px;
+  overflow: visible;
+  /* Ensure the button can "leave" the box */
 }
 
 .title {
@@ -286,6 +278,13 @@ body {
   flex-wrap: wrap;
   position: relative;
   min-height: 80px;
+}
+
+.no-button-slot {
+  width: 120px;
+  height: 60px;
+  visibility: hidden;
+  pointer-events: none;
 }
 
 button {
@@ -317,6 +316,11 @@ button {
   color: #ff1493;
   min-width: 120px;
   touch-action: none;
+  /* Ensure it has a z-index higher than other elements when moving */
+  z-index: 100;
+  position: absolute;
+  /* Always absolute for the global math to work */
+  pointer-events: auto;
 }
 
 .no-button:hover {
@@ -346,53 +350,13 @@ button {
   font-weight: 600;
 }
 
-/* Popping hearts container */
-.popping-hearts-container {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
-  pointer-events: none;
-  z-index: 8;
-}
-
-.popping-heart {
-  position: absolute;
-  filter: drop-shadow(0 0 8px rgba(255, 20, 147, 0.6));
-}
-
-/* Floating hearts */
-.hearts-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 5;
-}
-
-.heart {
-  position: absolute;
-  font-size: clamp(2rem, 4vw, 3rem);
-  filter: drop-shadow(0 0 10px rgba(255, 105, 180, 0.8));
-}
-
-/* Rose petals container */
-.rose-petals-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 6;
-}
-
-.rose-petal {
-  position: absolute;
-  filter: drop-shadow(0 2px 4px rgba(220, 20, 60, 0.4));
+.attempts-text {
+  font-size: clamp(1rem, 2.5vw, 1.5rem);
+  color: #fff;
+  opacity: 0.9;
+  margin-top: 1rem;
+  font-style: italic;
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
 }
 
 /* Responsive adjustments */
